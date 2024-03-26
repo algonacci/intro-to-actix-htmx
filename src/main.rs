@@ -11,6 +11,8 @@ async fn main() -> std::io::Result<()> {
     dotenv().ok();
 
     let pool = db::get_db_pool().await;
+    let port = std::env:var("PORT").unwrap_or_else(|_| "8080".to_string());
+    let server_address = format!("0.0.0.0:{}", port);
 
     HttpServer::new(move || {
         App::new()
@@ -19,7 +21,7 @@ async fn main() -> std::io::Result<()> {
             .route("/stations", web::get().to(data::get_stations))
             .route("/schedules", web::get().to(data::get_schedules))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(&server_address)?
     .run()
     .await
 }
