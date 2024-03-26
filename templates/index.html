@@ -1,0 +1,52 @@
+{% extends "master_layout.html" %}
+
+{% block content %}
+<div class="container p-4" x-data="{ currentView: null }">
+    <h1>{{ message }}</h1>
+
+    <button class="btn btn-primary"
+        @click="currentView = (currentView !== 'stations') ? 'stations' : null; $nextTick(() => { if(currentView) loadContent('/stations') })"
+        x-show="currentView !== 'stations'">
+        Get Stations Data
+    </button>
+
+    <button class="btn btn-primary"
+        @click="currentView = (currentView !== 'schedules') ? 'schedules' : null; $nextTick(() => { if(currentView) loadContent('/schedules') })"
+        x-show="currentView !== 'schedules'">
+        Get Schedules Data
+    </button>
+
+    <button class="btn btn-secondary" @click="currentView = null; clearContent()" x-show="currentView">
+        Close
+    </button>
+
+    <div id="dataResult" class="mt-3"></div>
+</div>
+
+<script>
+    function loadContent(url) {
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                const dataResult = document.getElementById('dataResult');
+                dataResult.innerHTML = html;
+
+                // Now that new content is loaded, reinitialize DataTables
+                $(dataResult).find('table').DataTable(); // Assuming there's a <table> in the loaded content
+            });
+    }
+
+
+    function clearContent() {
+        // Check if DataTable exists and destroy it
+        const existingTable = $('#dataResult').find('table').DataTable();
+        if (existingTable.length) {
+            existingTable.destroy();
+        }
+
+        document.getElementById('dataResult').innerHTML = '';
+    }
+
+
+</script>
+{% endblock %}

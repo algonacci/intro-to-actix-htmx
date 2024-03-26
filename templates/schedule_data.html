@@ -1,0 +1,38 @@
+<div>
+    <h1>List of Schedule</h1>
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Station ID</th>
+                <th>Train ID</th>
+                <th>Line</th>
+                <th>Route</th>
+                <th>Destination</th>
+                <th>Time Estimated</th>
+                <th>Destination Time</th>
+                <th>Updated At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for schedule in schedules %}
+            <tr>
+                <td>{{ schedule.id }}</td>
+                <td>{{ schedule.station_id }}</td>
+                <td>{{ schedule.train_id }}</td>
+                <td>{{ schedule.line }}</td>
+                <td>{{ schedule.route }}</td>
+                <td>{{ schedule.destination }}</td>
+                <td>{{ schedule.time_estimated }}</td>
+                <td>{{ schedule.destination_time }}</td>
+                <td>{{ schedule.updated_at }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        $(document).ready(function () {
+            $('#myTable').DataTable();
+        });
+    </script>
+</div>
