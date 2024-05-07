@@ -1,6 +1,7 @@
-use chrono::NaiveTime;
+// use chrono::NaiveTime;
+use serde::Serialize;
 
-#[derive(Debug, sqlx::FromRow)]
+#[derive(Debug, sqlx::FromRow, Serialize)]
 pub struct Station {
     pub id: String,
     pub name: String,
@@ -10,7 +11,7 @@ pub struct Station {
     pub updated_at: String,
 }
 
-#[derive(Debug, sqlx::FromRow)]
+#[derive(Debug, sqlx::FromRow, Serialize)]
 pub struct Schedule {
     pub id: String,
     pub station_id: String,
@@ -19,7 +20,7 @@ pub struct Schedule {
     pub route: String,
     pub color: String,
     pub destination: String,
-    pub time_estimated: NaiveTime,
-    pub destination_time: NaiveTime,
+    // pub time_estimated: NaiveTime,
+    // pub destination_time: NaiveTime,
     pub updated_at: String,
 }
